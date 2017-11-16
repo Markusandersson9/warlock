@@ -5,8 +5,9 @@ public class PlayerController : MonoBehaviour
 {
 
     public float movementSpeed;
-    public float cooldown;
-    private float cooldownTimer = 0;
+    public float fireballCooldown;
+    private float nextFireballTime = 0;
+
     public string horizontalInput; //String used to get input axis for the selected player
     public string verticalInput; //String used to get input axis for the selected player
     public GameObject fireball;
@@ -24,28 +25,29 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
-        this.movementVelocity = this.movementInput * this.movementSpeed;
+        this.getMovementInput();
+
         if (Input.GetAxisRaw("Fire1") != 0)
         {
             castFireball();
         }
-
-        this.cooldownTimer += Time.deltaTime;
     }
 
     void FixedUpdate()
     {
-        this.body.transform.Rotate(Vector3.right * 10);
         this.body.velocity = this.movementVelocity;
+    }
+
+    void getMovementInput()
+    {
+        this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
+        this.movementVelocity = this.movementInput * this.movementSpeed;
     }
 
     void castFireball()
     {
-
-        if (cooldownTimer > cooldown)
+        if (Time.time > nextFireballTime)
         {
-
             var ball = Instantiate(this.fireball, this.transform.position + new Vector3(0, 0, 2), this.transform.rotation);
             if (ball != null)
             {
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour
                 ballscript.setDirection(this.body.rotation.eulerAngles);
 
             }
-            this.cooldownTimer = 0;
+            this.nextFireballTime = Time.time + fireballCooldown;
         }
     }
 }
