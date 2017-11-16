@@ -8,9 +8,10 @@ public class PlayerController : MonoBehaviour
     public float fireballCooldown;
     private float nextFireballTime = 0;
 
-    public string horizontalInput; //String used to get input axis for the selected player
-    public string verticalInput; //String used to get input axis for the selected player
+    public string horizontalInput;  //String used to get input axis for the selected player
+    public string verticalInput;    //String used to get input axis for the selected player
     public GameObject fireball;
+    public Transform firePoint;     //Point where spells fire from    
 
     private Rigidbody body;
     private Vector3 movementInput;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.body = GetComponent<Rigidbody>();
+        this.firePoint = GameObject.Find("FirePoint").transform;
     }
 
     // Update is called once per frame
@@ -48,11 +50,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time > nextFireballTime)
         {
-            var ball = Instantiate(this.fireball, this.transform.position + new Vector3(0, 0, 2), this.transform.rotation);
+            var ball = Instantiate(this.fireball, this.firePoint.position, this.transform.rotation);
             if (ball != null)
             {
                 var ballscript = ball.GetComponent<Fireball>();
-                ballscript.setDirection(this.body.rotation.eulerAngles);
+                ballscript.setDirection(this.body.transform.forward);
 
             }
             this.nextFireballTime = Time.time + fireballCooldown;

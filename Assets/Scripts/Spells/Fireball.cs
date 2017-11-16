@@ -25,6 +25,7 @@ public class Fireball : MonoBehaviour {
 
     public void setDirection(Vector3 direction)
     {
+        direction.y = 0;
         this.direction = direction;
     }
 
