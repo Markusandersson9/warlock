@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        this.body.transform.Rotate(Vector3.right * 10);
         this.body.velocity = this.movementVelocity;
     }
 
@@ -45,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if (cooldownTimer > cooldown)
         {
 
-            var ball = Instantiate(this.fireball, this.transform.position + new Vector3(2, 0, 0), this.transform.rotation);
+            var ball = Instantiate(this.fireball, this.transform.position + new Vector3(0, 0, 2), this.transform.rotation);
             if (ball != null)
             {
                 var ballscript = ball.GetComponent<Fireball>();
