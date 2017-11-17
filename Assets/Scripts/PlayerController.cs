@@ -5,11 +5,13 @@ public class PlayerController : MonoBehaviour
 {
 
     public float movementSpeed;
-    public float cooldown;
-    private float cooldownTimer = 0;
-    public string horizontalInput; //String used to get input axis for the selected player
-    public string verticalInput; //String used to get input axis for the selected player
+    public float fireballCooldown;
+    private float nextFireballTime = 0;
+
+    public string horizontalInput;  //String used to get input axis for the selected player
+    public string verticalInput;    //String used to get input axis for the selected player
     public GameObject fireball;
+    public Transform firePoint;     //Point where spells fire from    
 
     private Rigidbody body;
     private Vector3 movementInput;
@@ -19,41 +21,43 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.body = GetComponent<Rigidbody>();
+        this.firePoint = GameObject.Find("FirePoint").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
-        this.movementVelocity = this.movementInput * this.movementSpeed;
+        this.getMovementInput();
+
         if (Input.GetAxisRaw("Fire1") != 0)
         {
             castFireball();
         }
-
-        this.cooldownTimer += Time.deltaTime;
     }
 
     void FixedUpdate()
     {
-        this.body.transform.Rotate(Vector3.right * 10);
         this.body.velocity = this.movementVelocity;
+    }
+
+    void getMovementInput()
+    {
+        this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
+        this.movementVelocity = this.movementInput * this.movementSpeed;
     }
 
     void castFireball()
     {
-
-        if (cooldownTimer > cooldown)
+        if (Time.time > nextFireballTime)
         {
-
-            var ball = Instantiate(this.fireball, this.transform.position + new Vector3(0, 0, 2), this.transform.rotation);
+            var ball = Instantiate(this.fireball, this.firePoint.position, this.transform.rotation);
             if (ball != null)
             {
                 var ballscript = ball.GetComponent<Fireball>();
-                ballscript.setDirection(this.body.rotation.eulerAngles);
+                ballscript.setDirection(this.body.transform.forward);
 
             }
-            this.cooldownTimer = 0;
+            this.nextFireballTime = Time.time + fireballCooldown;
         }
     }
 }
