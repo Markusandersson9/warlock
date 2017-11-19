@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public string horizontalInput;  //String used to get input axis for the selected player
     public string verticalInput;    //String used to get input axis for the selected player
+    public string aButton;
+
     public GameObject fireball;
     public Transform firePoint;     //Point where spells fire from    
 
@@ -21,7 +23,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.body = GetComponent<Rigidbody>();
-        this.firePoint = GameObject.Find("FirePoint").transform;
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         this.getMovementInput();
 
-        if (Input.GetAxisRaw("Fire1") != 0)
+        if (Input.GetButtonDown(aButton))
         {
             castFireball();
         }

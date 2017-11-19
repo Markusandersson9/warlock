@@ -5,6 +5,8 @@ public class Fireball : MonoBehaviour {
     private Rigidbody body;
 
     public float speed;
+    public float damage;
+
     private Vector3 direction;
 
     public Fireball(Vector3 direction)
@@ -15,7 +17,6 @@ public class Fireball : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         this.body = this.GetComponent<Rigidbody>();
-        //this.body.AddForce(this.direction*speed);
 	}
 	
 	// Update is called once per frame

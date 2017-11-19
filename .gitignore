@@ -32,8 +32,3 @@ Icon?
 ehthumbs.db
 Thumbs.db
 </pre>
-Execute following shell commands:
-<br />
-<pre class="prettyprint">git add -gitignore
-git commit -m "git ignore configuration"
-git push -u origin master

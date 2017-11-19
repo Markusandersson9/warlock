@@ -6,12 +6,12 @@ public class LookAtAimCircle : MonoBehaviour {
 
     public float damping;
 
-    private Transform cursor;
+    public Transform cursor;
 
     // Use this for initialization
     void Start()
     {
-        this.cursor = GameObject.Find("AimCircle").transform;
+   
     }
 
     // Update is called once per frame
