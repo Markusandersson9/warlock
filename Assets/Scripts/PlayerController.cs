@@ -1,23 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
 
-    public float movementSpeed;
+    public float movementAcceleration;
+    private float maximumMovementSpeed = 50;
     public float fireballCooldown;
     private float nextFireballTime = 0;
 
     public string horizontalInput;  //String used to get input axis for the selected player
     public string verticalInput;    //String used to get input axis for the selected player
     public string aButton;
+    public float friction = 1.1f;
+    private float maximumFriction = 1.1f;
 
     public GameObject fireball;
     public Transform firePoint;     //Point where spells fire from    
 
     private Rigidbody body;
     private Vector3 movementInput;
-    private Vector3 movementVelocity;
+    private Vector3 movementForce;
 
     // Use this for initialization
     void Start()
@@ -38,13 +40,29 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        this.body.velocity = this.movementVelocity;
+        if (movementAcceleration < maximumMovementSpeed)
+        {
+            movementAcceleration += 0.4f;
+        }
+
+        if (friction < maximumFriction)
+        {
+            friction += 0.001f;
+        }
+
+        this.body.AddForce(movementForce);
+        this.body.velocity = Vector3.ClampMagnitude(this.body.velocity, 12);
+
+        //Adding some friction when no movement input
+        if (movementForce.magnitude <= 0.01f) {
+            this.body.velocity /= friction;
+        }
     }
 
     void getMovementInput()
     {
         this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
-        this.movementVelocity = this.movementInput * this.movementSpeed;
+        this.movementForce = this.movementInput * this.movementAcceleration;
     }
 
     void castFireball()
