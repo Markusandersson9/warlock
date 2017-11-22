@@ -32,7 +32,6 @@ public class Fireball : MonoBehaviour {
 
     void FixedUpdate()
     {
-        //this.body.velocity = Vector3.forward * speed;
         transform.Translate(Vector3.forward * speed * 0.01f);
     }
 }
