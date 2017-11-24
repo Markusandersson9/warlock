@@ -16,13 +16,17 @@ public class CollisionDetector : MonoBehaviour {
 		
 	}
 
-
     void OnTriggerEnter(Collider other)
     {
+        //Need to detect that collision is actually with a spell
         var spell = other.GetComponent<Fireball>();
         this.playerStats.TakeDamage(spell.damage);
-        this.player.velocity = new Vector3(10, 0, 0);
-        //this.player.AddForce(new Vector3(1,0,10), ForceMode.Impulse);
+        this.player.AddForce(other.transform.forward*100, ForceMode.Impulse);
+
+        var playerController = this.transform.GetComponent<PlayerController>();
+        playerController.friction = 1.001f;             //These two values should be based on player knockback/mana
+        playerController.movementAcceleration = 10;     //These two values should be based on player knockback/mana
+
         Destroy(other.gameObject);
         Debug.Log(this.playerStats.health);
     }

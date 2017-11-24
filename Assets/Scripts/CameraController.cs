@@ -14,14 +14,14 @@ public class CameraController : MonoBehaviour {
     private float cameraMaxZ = 10f;
 
     private Vector3 cameraVelocity; //Only used to pass reference to SmoothDamp function
-    private Camera camera;
+    private Camera mainCamera;
     private Vector3 cameraOffset;
 
 	// Use this for initialization
 	void Start () {
         players = GameObject.FindGameObjectsWithTag("Player");
 
-        this.camera = Camera.main;
+        this.mainCamera = Camera.main;
         this.cameraOffset = this.transform.position - GetCenterOfCamera();
 	}
 	
@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour {
 
     private Vector3 GetCenterOfCamera()
     {
-        Ray cameraRay = this.camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));     //Get ray from center of camera
+        Ray cameraRay = this.mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));     //Get ray from center of camera
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);                        //Find the ground plane (xz-plane at y = 0)
         float distanceToGround;
         groundPlane.Raycast(cameraRay, out distanceToGround);                           //Cast ray to plane, to find camera center
