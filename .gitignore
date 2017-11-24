@@ -22,6 +22,9 @@ Assets/AssetStoreTools*
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
+# Visual Studio 2015 cache directory
+.vs/
+
 # OS generated
 .DS_Store
 .DS_Store?
