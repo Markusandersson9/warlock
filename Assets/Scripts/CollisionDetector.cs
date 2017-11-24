@@ -23,9 +23,11 @@ public class CollisionDetector : MonoBehaviour {
         this.playerStats.TakeDamage(spell.damage);
         var spellOwner = spell.getOwner();
         var spellOwnerScript = spellOwner.GetComponent<PlayerState>();
+
         if(this.playerStats.health <= 0.0f) {
             spellOwnerScript.getPlayerStats().incrementKills();
         }
+
         this.player.AddForce(other.transform.forward*100, ForceMode.Impulse);
 
         var playerController = this.transform.GetComponent<PlayerController>();

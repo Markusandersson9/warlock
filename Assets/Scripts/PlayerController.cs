@@ -16,9 +16,13 @@ public class PlayerController : MonoBehaviour
 
     //Cooldowns
     public float fireballCooldown;
+    public float homingMissileCooldown;
     private float nextFireballTime = 0;
+    private float nextHomingMissileTime = 0;
 
     public GameObject fireball;
+    public GameObject homingMissile;
+
     public Transform firePoint;     //Point where spells fire from    
     private Rigidbody body;
     private Vector3 movementInput;
@@ -37,7 +41,8 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetButtonDown(aButton))
         {
-            castFireball();
+            //castFireball();
+            castHomingMissile();
         }
     }
 
@@ -90,6 +95,17 @@ public class PlayerController : MonoBehaviour
     {
         this.movementInput = new Vector3(Input.GetAxisRaw(horizontalInput), 0, Input.GetAxisRaw(verticalInput));
         this.movementForce = this.movementInput * this.movementAcceleration;
+    }
+    
+    void castHomingMissile()
+    {
+        if (Time.time > nextHomingMissileTime)
+        {
+            var homingMissile = Instantiate(this.homingMissile, this.firePoint.position, this.transform.rotation);
+            var homingMissileScript = homingMissile.GetComponent<HomingMissile>();
+            homingMissileScript.setOwner(this.transform.gameObject);
+            this.nextHomingMissileTime = Time.time + homingMissileCooldown;
+        }
     }
 
     void castFireball()

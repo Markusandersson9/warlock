@@ -225,7 +225,10 @@ MonoBehaviour:
   movementAcceleration: 0
   friction: 1.1
   fireballCooldown: 1
+  homingMissileCooldown: 0
   fireball: {fileID: 1299509324297436, guid: a9d57102693ea4c418fa0d90b388c586, type: 2}
+  homingMissile: {fileID: 1517606816596746, guid: 03b83b93d8654f9469f242ef3c8fccd6,
+    type: 2}
   firePoint: {fileID: 573353616}
 --- !u!114 &55929765
 MonoBehaviour:
@@ -707,7 +710,10 @@ MonoBehaviour:
   movementAcceleration: 0
   friction: 1.1
   fireballCooldown: 1
+  homingMissileCooldown: 0
   fireball: {fileID: 1299509324297436, guid: a9d57102693ea4c418fa0d90b388c586, type: 2}
+  homingMissile: {fileID: 1517606816596746, guid: 03b83b93d8654f9469f242ef3c8fccd6,
+    type: 2}
   firePoint: {fileID: 1115732450}
 --- !u!114 &1023295805
 MonoBehaviour:
