@@ -53,6 +53,11 @@ public class PlayerController : MonoBehaviour
             friction += 0.001f;
         }
 
+        if(this.transform.position.y < -10)
+        {
+            Destroy(this.transform.gameObject);
+        }
+
         this.movePlayer();
         this.applyFriction();
         this.addAdditionalGravity();        
@@ -91,7 +96,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Time.time > nextFireballTime)
         {
-            Instantiate(this.fireball, this.firePoint.position, this.transform.rotation);   
+            var fireball = Instantiate(this.fireball, this.firePoint.position, this.transform.rotation);
+            var fireballScript = fireball.GetComponent<Fireball>();
+            fireballScript.setOwner(this.transform.gameObject);   
             this.nextFireballTime = Time.time + fireballCooldown;
         }
     }

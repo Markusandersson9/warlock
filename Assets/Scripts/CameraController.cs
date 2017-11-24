@@ -6,12 +6,12 @@ public class CameraController : MonoBehaviour {
     private float cameraPadding = 2f;
     private float cameraZoomSpeed = 0.15f;
 
-    public float cameraMinX = -10;
-    public float cameraMaxX = 10f;
+    public float cameraMinX = -10000;
+    public float cameraMaxX = 10000f;
     public float cameraMinY = 20f;
     public float cameraMaxY = 30f;
-    private float cameraMinZ = -10f;
-    private float cameraMaxZ = 10f;
+    private float cameraMinZ = -100000f;
+    private float cameraMaxZ = 1000000f;
 
     private Vector3 cameraVelocity; //Only used to pass reference to SmoothDamp function
     private Camera mainCamera;
@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        this.cameraOffset = this.transform.position - GetCenterOfCamera();
+
         var boundingBox = this.getPlayerBoundingBox();  //Find bounding box surronding all players
         this.moveCamera(boundingBox);                   //Move camera to fit players
     }
@@ -80,9 +82,9 @@ public class CameraController : MonoBehaviour {
        
         //Clamping positions to limit camera movement => should be done differently
         this.transform.position = new Vector3(
-            Mathf.Clamp(this.transform.position.x, cameraMinX, cameraMaxX),
-            Mathf.Clamp(this.transform.position.y, 12, 30),     //Clamps wrong when I use variables for some reason, needs debug
-            Mathf.Clamp(this.transform.position.z, cameraMinZ, cameraMaxZ)
+            //Mathf.Clamp(this.transform.position.x, cameraMinX, cameraMaxX),
+            this.transform.position.x, Mathf.Clamp(this.transform.position.y, 12, 30), this.transform.position.z     //Clamps wrong when I use variables for some reason, needs debug
+            //Mathf.Clamp(this.transform.position.z, cameraMinZ, cameraMaxZ)
         );
 
     }    

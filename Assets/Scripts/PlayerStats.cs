@@ -1,26 +1,39 @@
-﻿using UnityEngine;
-
-public class PlayerStats : MonoBehaviour {
-
-    public float health;
-
-    private float fatigue;
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if(this.health <= 0)
-        {
-            Destroy(this.transform.gameObject);
-        }
-	}
-
-    public void TakeDamage(float damage)
+﻿namespace Assets.Scripts
+{
+    public class PlayerStats
     {
-        this.health -= damage;
+        int kills;
+        int damageDone;
+        int damageTaken;
+        int deaths;
+
+        public PlayerStats()
+        {
+            this.kills = 0;
+            this.damageDone = 0;
+            this.damageTaken = 0;
+            this.deaths = 0;
+        }
+
+        public void incrementKills()
+        {
+            this.kills++;
+        }
+
+        public void incrementDeaths()
+        {
+            this.deaths++;
+        }
+
+        public int getKills()
+        {
+            return this.kills;
+        }
+
+        public int getDeaths()
+        {
+            return this.deaths;
+        }
     }
+
 }
