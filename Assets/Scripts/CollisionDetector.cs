@@ -19,22 +19,55 @@ public class CollisionDetector : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //Need to detect that collision is actually with a spell
-        var spell = other.GetComponent<Fireball>();
-        this.playerStats.TakeDamage(spell.damage);
-        var spellOwner = spell.getOwner();
-        var spellOwnerScript = spellOwner.GetComponent<PlayerState>();
+        var fireball = other.GetComponent<Fireball>();
+        if (fireball != null)
+        {
+            this.playerStats.TakeDamage(fireball.damage);
+            var spellOwner = fireball.getOwner();
+            var spellOwnerScript = spellOwner.GetComponent<PlayerState>();
 
-        if(this.playerStats.health <= 0.0f) {
-            spellOwnerScript.getPlayerStats().incrementKills();
+            if (this.playerStats.health <= 0.0f)
+            {
+                spellOwnerScript.getPlayerStats().incrementKills();
+            }
+
+            this.player.AddForce(other.transform.forward * 100, ForceMode.Impulse);
+
+            var playerController = this.transform.GetComponent<PlayerController>();
+            playerController.friction = 1.001f;             //These two values should be based on player knockback/mana
+            playerController.movementAcceleration = 10;     //These two values should be based on player knockback/mana
+
+            Destroy(other.gameObject);
+            Debug.Log(this.playerStats.health);
         }
 
-        this.player.AddForce(other.transform.forward*100, ForceMode.Impulse);
+        var homingMissile = other.GetComponent<HomingMissile>();
+        if (homingMissile != null)
+        {
+            this.playerStats.TakeDamage(homingMissile.damage);
+            var spellOwner = homingMissile.getOwner();
 
-        var playerController = this.transform.GetComponent<PlayerController>();
-        playerController.friction = 1.001f;             //These two values should be based on player knockback/mana
-        playerController.movementAcceleration = 10;     //These two values should be based on player knockback/mana
+            if (spellOwner == this.gameObject)
+            {
+                return;
+            }
 
-        Destroy(other.gameObject);
-        Debug.Log(this.playerStats.health);
+            var spellOwnerScript = spellOwner.GetComponent<PlayerState>();
+
+            if (this.playerStats.health <= 0.0f)
+            {
+                spellOwnerScript.getPlayerStats().incrementKills();
+            }
+
+            this.player.AddForce(other.transform.forward * 100, ForceMode.Impulse);
+
+            var playerController = this.transform.GetComponent<PlayerController>();
+            playerController.friction = 1.001f;             //These two values should be based on player knockback/mana
+            playerController.movementAcceleration = 10;     //These two values should be based on player knockback/mana
+
+            Destroy(other.gameObject);
+            Debug.Log(this.playerStats.health);
+        }
+
     }
 }

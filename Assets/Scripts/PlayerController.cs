@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public string horizontalInput;  //String used to get input axis for the selected player
     public string verticalInput;    //String used to get input axis for the selected player
     public string aButton;          //A or X button depending on controller type
+    public string bButton;
 
     //Physical properties
     public float movementAcceleration;
@@ -39,11 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         this.getMovementInput();
 
-        if (Input.GetButtonDown(aButton))
-        {
-            //castFireball();
-            castHomingMissile();
-        }
+        this.handleButtonInputs();
     }
 
     void FixedUpdate()
@@ -66,6 +63,19 @@ public class PlayerController : MonoBehaviour
         this.movePlayer();
         this.applyFriction();
         this.addAdditionalGravity();        
+    }
+
+    void handleButtonInputs()
+    {
+        if (Input.GetButtonDown(aButton))
+        {
+            castFireball();
+        }
+
+        if (Input.GetButtonDown(bButton))
+        {
+            castHomingMissile();
+        }
     }
 
     void movePlayer()
