@@ -8,6 +8,7 @@ public class AimController : MonoBehaviour {
 
     public string horizontalInput;
     public string verticalInput;
+    public Vector3 currentPos;
 
     // Use this for initialization
     void Start()
@@ -25,6 +26,7 @@ public class AimController : MonoBehaviour {
     {
         //this.transform.position  .velocity = this.movementVelocity;
         transform.Translate(movementVelocity * Time.deltaTime);
+        this.currentPos = this.transform.position;
 
     }
 }
